@@ -12,7 +12,10 @@ import com.zerodhatech.models.LTPQuote;
 public class TradeOpeningService {
 	
     @Autowired
-    private TradeRepository tradeRepository;         
+    private TradeRepository tradeRepository;
+
+	@Autowired
+	TradeCacheService tradeCacheService;
     
     @Autowired
     private TradeUtil util;
@@ -68,7 +71,8 @@ public class TradeOpeningService {
     	});
     	trade.setTradeStatus("LIVE");
     	util.calcMarginForTrade(trade);
-    	tradeRepository.save(trade);    	
+    	//tradeRepository.save(trade);
+		tradeCacheService.updateTrade(trade);
     	System.out.println("Live Trade Being Opened: "+trade);
     	return "Trade processed: ";
     }

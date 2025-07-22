@@ -15,13 +15,17 @@ import com.zerodhatech.models.LTPQuote;
 public class TradeClosingService {
 
     @Autowired
-    private TradeRepository tradeRepository;         
+    private TradeRepository tradeRepository;
+
+	@Autowired
+	TradeCacheService tradeCacheService;
     
     @Autowired
     private TradeUtil util;
     
 	public String closeTrade(String signalPrice, String type) {
-		Trade liveTrade = tradeRepository.findByTradeStatus("LIVE");
+		//Trade liveTrade = tradeRepository.findByTradeStatus("LIVE");
+		Trade liveTrade = tradeCacheService.getTrade("LIVE");
 		System.out.println("Live Trade : "+liveTrade);
 		if(liveTrade != null) {
 	    	String[] liveIns = Stream.concat(liveTrade.getWeeklyOrderBook().stream().map(WeeklyOrderBook::getTradedSymbol), liveTrade.getMonthlyOrderBook().stream().map(MonthlyOrderBook::getTradedSymbol)).toArray(String[]::new);
@@ -54,9 +58,10 @@ public class TradeClosingService {
 	    	util.calcMarginForTrade(liveTrade);
 	    	util.calcTradeOutcome(liveTrade);
 	    	util.calcPnL(liveTrade);
-	    	tradeRepository.save(liveTrade);
+			tradeCacheService.updateTrade(liveTrade);
+	    	//tradeRepository.save(liveTrade);
 	    	System.out.println("Live Trade Being Closed: "+liveTrade);
-		}    	
+		}
         return "Trade processed: ";	
 	}
 }
