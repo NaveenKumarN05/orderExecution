@@ -14,9 +14,6 @@ import com.zerodhatech.models.LTPQuote;
 @Service
 public class TradeClosingService {
 
-    @Autowired
-    private TradeRepository tradeRepository;
-
 	@Autowired
 	TradeCacheService tradeCacheService;
     
@@ -58,7 +55,7 @@ public class TradeClosingService {
 	    	util.calcMarginForTrade(liveTrade);
 	    	util.calcTradeOutcome(liveTrade);
 	    	util.calcPnL(liveTrade);
-			tradeCacheService.updateTrade(liveTrade);
+            tradeCacheService.updateTrade(liveTrade);
 	    	//tradeRepository.save(liveTrade);
 	    	System.out.println("Live Trade Being Closed: "+liveTrade);
 		}
