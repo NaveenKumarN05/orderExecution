@@ -14,8 +14,8 @@ import com.zerodhatech.models.LTPQuote;
 @Service
 public class TradeClosingService {
 
-	@Autowired
-	TradeCacheService tradeCacheService;
+    @Autowired
+    TradeCacheService tradeCacheService;
     
     @Autowired
     private TradeUtil util;
