@@ -54,10 +54,10 @@ public class Trade extends BaseEntity{
     @Column(name = "TRADE_CLOSE_DATETIME")
     private String tradeCloseDtTime;    
     
-    @OneToMany(mappedBy = "trade", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "trade", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<WeeklyOrderBook> weeklyOrderBook;
     
-    @OneToMany(mappedBy = "trade", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "trade", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<MonthlyOrderBook> monthlyOrderBook;
 
     public Trade() {

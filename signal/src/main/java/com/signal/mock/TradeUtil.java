@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.signal.TradeInit;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +32,9 @@ import com.zerodhatech.models.MarginCalculationParams;
 @Service
 public class TradeUtil {
 
-    @Autowired
-    private KiteAuthDetailsRepository repository;
-    
+	@Autowired
+	TradeInit tradeInit;
+
     @Value("#{'${weekly.this.month.this.week}'}")
     private String currentWeeklyExpiry;
     
@@ -98,8 +99,7 @@ public class TradeUtil {
     
 	public KiteConnect getKiteConnectObject() {
     	KiteConnect kiteConnect = null;
-        LocalDate today = LocalDate.now(ZoneId.of("Asia/Kolkata"));
-    	Optional<KiteAuthDetails> existing = repository.findByAuthDate(today);
+    	Optional<KiteAuthDetails> existing = tradeInit.getKiteAuthDetails();
         if (existing.isPresent()) {
         	kiteConnect = new KiteConnect(existing.get().getApiKey());
         	kiteConnect.setAccessToken(existing.get().getAccessToken());
